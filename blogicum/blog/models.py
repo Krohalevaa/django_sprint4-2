@@ -5,9 +5,8 @@ User = get_user_model()
 MAX_LEIGHT = 256
 
 
-
 class Location(PublishedModel):
-    """Местоположение."""
+    """Локация"""
 
     name = models.CharField(
         max_length=256,
@@ -24,7 +23,7 @@ class Location(PublishedModel):
 
 
 class Category(PublishedModel):
-    """Категория."""
+    """Категория"""
 
     title = models.CharField(
         max_length=256,
@@ -49,7 +48,7 @@ class Category(PublishedModel):
 
 
 class Post(PublishedModel):
-    """Публикация."""
+    """Пост"""
 
     title = models.CharField(
         max_length=256,
@@ -99,7 +98,7 @@ class Post(PublishedModel):
 
 
 class Comment(PublishedModel):
-    """Комментарий."""
+    """Комментарий"""
 
     text = models.TextField(verbose_name='Текст')
     author = models.ForeignKey(

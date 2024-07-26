@@ -1,16 +1,3 @@
-# from django.urls import path
-# from . import views
-
-# app_name = 'blog'
-
-# urlpatterns = [
-#     path('', views.index, name='index'),
-#     path('posts/<int:id>/', views.post_detail, name='post_detail'),
-#     path('category/<slug:category_slug>/',
-#          views.category_posts,
-#          name='category_posts'),
-# ]
-
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
@@ -19,7 +6,6 @@ from . import views
 
 app_name = 'blog'
 
-# Posts
 posts = [
     path('create/', views.create_post, name='create_post'),
     path('<int:post_id>/', views.post_detail, name='post_detail'),
@@ -38,16 +24,13 @@ posts = [
     ),
 ]
 
-# Profile
 profile = [
     path('edit/', views.edit_profile, name='edit_profile'),
     path('<str:username>/', views.profile, name='profile'),
 ]
 
 urlpatterns = [
-    # Index
     path('', views.index, name='index'),
-    # Category
     path('category/<slug:category_slug>/',
          views.category_posts, name='category_posts'),
     path('posts/', include(posts)),
