@@ -64,8 +64,7 @@ def profile(request, username):
     posts_list = (
         user.posts
         .annotate(comment_count=Count('comments'))
-        .order_by('-pub_date')
-        )
+        .order_by('-pub_date'))
     # Можно пожалуйста небольшую подсказку о том, как сделать так, чтобы
     # смотреть неопубликованные посты мог только автор.
     # Все мои попытки заканчивались непрохождением тестов
