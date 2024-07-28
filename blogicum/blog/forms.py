@@ -24,3 +24,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
+        widgets = {
+            'body': forms.Textarea(attrs={'rows': 3}),
+        }

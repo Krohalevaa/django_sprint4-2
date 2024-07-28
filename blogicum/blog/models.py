@@ -1,15 +1,21 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from core.models import PublishedModel
+
+
 User = get_user_model()
+
+
 MAX_LEIGHT = 256
+MAX_LEIGHT_CATEGORY = 64
+MAX_LEIGHT_STR = 20
 
 
 class Location(PublishedModel):
     """Локация"""
 
     name = models.CharField(
-        max_length=256,
+        max_length=MAX_LEIGHT,
         verbose_name='Название места'
     )
 
@@ -18,20 +24,19 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self) -> str:
-        name = str(self.name)
-        return name[:20]
+        return self.name[:MAX_LEIGHT_STR]
 
 
 class Category(PublishedModel):
     """Категория"""
 
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_LEIGHT,
         verbose_name='Заголовок'
     )
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
-        max_length=64,
+        max_length=MAX_LEIGHT_CATEGORY,
         unique=True,
         verbose_name='Идентификатор',
         help_text='Идентификатор страницы для URL; '
@@ -43,15 +48,14 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self) -> str:
-        title = str(self.title)
-        return title[:20]
+        return self.title[:MAX_LEIGHT_STR]
 
 
 class Post(PublishedModel):
     """Пост"""
 
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_LEIGHT,
         verbose_name='Заголовок'
     )
     text = models.TextField(verbose_name='Текст')
@@ -93,8 +97,7 @@ class Post(PublishedModel):
         verbose_name_plural = 'Публикации'
 
     def __str__(self) -> str:
-        title = str(self.title)
-        return title[:20]
+        return self.title[:MAX_LEIGHT_STR]
 
 
 class Comment(PublishedModel):
@@ -124,5 +127,4 @@ class Comment(PublishedModel):
         ordering = ('created_at',)
 
     def __str__(self) -> str:
-        text = str(self.text)
-        return text[:20]
+        return self.text[:MAX_LEIGHT_STR]

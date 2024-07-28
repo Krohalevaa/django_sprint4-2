@@ -1,27 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.core.paginator import Paginator
-
+from django.db.models import Count
 from .models import Post, Category, Comment, User
 from .forms import PostForm, ProfileEditForm, CommentForm
-
-
-def get_posts(post_objects):
-    """Посты из базы данных"""
-    return post_objects.filter(
-        pub_date__lte=timezone.now(),
-        is_published=True,
-        category__is_published=True
-    ).annotate(comment_count=Count('comments'))
-
-
-def get_paginator(request, items, num=10):
-    """Пангинация"""
-    paginator = Paginator(items, num)
-    num_pages = request.GET.get('page')
-    return paginator.get_page(num_pages)
+from core.get_posts import get_posts
+from core.get_panginator import get_paginator
 
 
 def index(request):
@@ -81,7 +65,10 @@ def profile(request, username):
         user.posts
         .annotate(comment_count=Count('comments'))
         .order_by('-pub_date')
-    )
+        )
+    # Можно пожалуйста небольшую подсказку о том, как сделать так, чтобы
+    # смотреть неопубликованные посты мог только автор.
+    # Все мои попытки заканчивались непрохождением тестов
     page_obj = get_paginator(request, posts_list)
     context = {'profile': user, 'page_obj': page_obj}
     return render(request, template, context)
