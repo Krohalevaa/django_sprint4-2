@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.db.models import Count
+
 from .models import Post, Category, Comment, User
 from .forms import PostForm, ProfileEditForm, CommentForm
 from core.get_posts import get_posts
@@ -61,13 +61,17 @@ def profile(request, username):
     """Профиль пользователя"""
     template = 'blog/profile.html'
     user = get_object_or_404(User, username=username)
-    posts_list = (
-        user.posts
-        .annotate(comment_count=Count('comments'))
-        .order_by('-pub_date'))
-    # Можно пожалуйста небольшую подсказку о том, как сделать так, чтобы
-    # смотреть неопубликованные посты мог только автор.
-    # Все мои попытки заканчивались непрохождением тестов
+    if user.id == request.user.id:
+        posts_list = (
+            user.posts
+            .annotate(comment_count=Count('comments'))
+            .order_by('-pub_date'))
+    else:
+        posts_list = (
+            user.posts
+            .annotate(comment_count=Count('comments'))
+            .order_by('-pub_date')
+            .filter(is_published=True))
     page_obj = get_paginator(request, posts_list)
     context = {'profile': user, 'page_obj': page_obj}
     return render(request, template, context)

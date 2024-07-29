@@ -1,14 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from core.models import PublishedModel
 
+from core.models import PublishedModel
+from blog.constants import MAX_LEIGHT, MAX_LEIGHT_CATEGORY, MAX_LEIGHT_STR
 
 User = get_user_model()
-
-
-MAX_LEIGHT = 256
-MAX_LEIGHT_CATEGORY = 64
-MAX_LEIGHT_STR = 20
 
 
 class Location(PublishedModel):
